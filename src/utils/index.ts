@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
 
-const isFalsy = (value) => (value === 0 ? false : !value);
+const isFalsy = (value: any) => (value === 0 ? false : !value);
 
-export const cleanObject = (object) => {
+export const cleanObject = (object: object) => {
   const result = { ...object };
 
   Object.keys(result).forEach((key) => {
+    // @ts-ignore
     if (isFalsy(result[key])) {
+      // @ts-ignore
       delete result[key];
     }
   });
   return result;
 };
 
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
   }, []);
 };
 
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: unknown, delay: number): any => {
   const [debouncedValue, setDebounceValue] = useState(value);
 
   useEffect(() => {

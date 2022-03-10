@@ -1,38 +1,35 @@
 import React from "react";
-import {RegisterScreen} from "./register";
-import {LoginScreen} from "./login";
-import {Card, Divider} from "antd";
+import { RegisterScreen } from "./register";
+import { LoginScreen } from "./login";
+import { Button, Card, Divider } from "antd";
 import styled from "@emotion/styled";
-import logo from 'assets/logo.svg'
-import left from 'assets/left.svg'
-import right from 'assets/right.svg'
-
+import logo from "assets/logo.svg";
+import left from "assets/left.svg";
+import right from "assets/right.svg";
 
 export const UnauthenticatedApp = () => {
-    const [isRegister, setIsRegister] = React.useState(false);
+  const [isRegister, setIsRegister] = React.useState(false);
 
-    return (
-        <Container>
-            <Header/>
-            <Background/>
-            <ShadowCard>
-                <Title>
-                    {isRegister ? '请注册' : '请登录'}
-                </Title>
-                {isRegister ? <RegisterScreen/> : <LoginScreen/>}
-                <Divider/>
-                <a onClick={() => setIsRegister(!isRegister)}>
-                    {isRegister ? "已有账号？直接登录" : "没有账号？注册新账号"}
-                </a>
-            </ShadowCard>
-        </Container>
-    );
+  return (
+    <Container>
+      <Header />
+      <Background />
+      <ShadowCard>
+        <Title>{isRegister ? "请注册" : "请登录"}</Title>
+        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        <Divider />
+        <Button type={"link"} onClick={() => setIsRegister(!isRegister)}>
+          {isRegister ? "已有账号？直接登录" : "没有账号？注册新账号"}
+        </Button>
+      </ShadowCard>
+    </Container>
+  );
 };
 
 const Title = styled.h2`
   margin-bottom: 2.4rem;
-  color: rgb(94,108,132)
-`
+  color: rgb(94, 108, 132);
+`;
 
 const Background = styled.div`
   position: fixed;
@@ -50,8 +47,8 @@ const Header = styled.header`
   background: url(${logo}) no-repeat center;
   padding: 5rem 0;
   background-size: 8rem;
-  width:100%;
-`
+  width: 100%;
+`;
 
 const ShadowCard = styled(Card)`
   width: 40rem;
@@ -59,14 +56,13 @@ const ShadowCard = styled(Card)`
   padding: 3.2rem 4rem;
   border-radius: 0.3rem;
   box-sizing: border-box;
-  box-shadow: rgba(0,0,0,0.1) 0 0 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
   text-align: center;
-`
-
+`;
 
 const Container = styled.div`
   display: flex;
   flex-flow: column;
   align-items: center;
   min-height: 100vh;
-`
+`;

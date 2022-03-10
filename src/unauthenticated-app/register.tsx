@@ -1,6 +1,7 @@
 import React, { FormEvent } from "react";
 import { useAuth } from "../context/auth-context";
 import { Button, Form, Input } from "antd";
+import styled from "@emotion/styled";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -28,10 +29,14 @@ export const RegisterScreen = () => {
         <Input placeholder={"密码"} type={"password"} id={"password"} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={"submit"} type={"primary"}>
+        <RegisterButton htmlType={"submit"} type={"primary"}>
           注册
-        </Button>
+        </RegisterButton>
       </Form.Item>
     </Form>
   );
 };
+
+const RegisterButton = styled(Button)`
+    width:100%
+`

@@ -1,6 +1,7 @@
 import { useAuth } from "./context/auth-context";
 import { ProjectListScreen } from "./screens/project-list";
 import styled from "@emotion/styled";
+import { Row } from "./components/lib";
 
 /**
  * grid 和 flex 各自的应用场景
@@ -25,11 +26,11 @@ export const AuthenticatedApp = () => {
   // );
   return (
     <Container>
-      <Header>
-        <HeaderLeft>
-          <p>logo</p>
-          <p>项目</p>
-          <p>用户</p>
+      <Header between={true}>
+        <HeaderLeft gap={true}>
+          <h2>logo</h2>
+          <h2>项目</h2>
+          <h2>用户</h2>
         </HeaderLeft>
         <HeaderRight>
           <button onClick={() => logout()}>登出</button>
@@ -47,18 +48,11 @@ const Container = styled.div`
   grid-template-rows: 6rem 1fr;
   height: 100vh;
 `;
-const Header = styled.header`
-  grid-area: header; //这种情况下加grid-area为何不是从第一个开始排？并且分了两列？
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
+const Header = styled(Row)`
+  //grid-area: header; //这种情况下加grid-area为何不是从第一个开始排？并且分了两列？
 `;
 
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const HeaderLeft = styled(Row)``;
 
 const HeaderRight = styled.div``;
 

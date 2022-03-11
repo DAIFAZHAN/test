@@ -20,7 +20,7 @@ export const useAsync = <D>(
   initialState?: State<D>,
   initialConfig?: typeof defaultConfig
 ) => {
-  // const config = {...defaultConfig, ...initialConfig}
+  const config = { ...defaultConfig, ...initialConfig };
   const [state, setState] = useState<State<D>>({
     ...defaultInitialState,
     ...initialState,
@@ -52,7 +52,7 @@ export const useAsync = <D>(
       })
       .catch((error) => {
         setError(error);
-        // if(config.throwOnError)return Promise.reject(error)//意义在于若直接返回error，是兑现的promise，不会被调用者catch到，而是then
+        if (config.throwOnError) return Promise.reject(error); //意义在于若直接返回error，是兑现的promise，不会被调用者catch到，而是then
         return error;
       });
   };

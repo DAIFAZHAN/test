@@ -2,14 +2,27 @@ import React, { FormEvent } from "react";
 import { useAuth } from "../context/auth-context";
 import { Button, Form, Input } from "antd";
 import styled from "@emotion/styled";
+import { useAsync } from "../utils/use-async";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const LoginScreen = () => {
+export const LoginScreen = ({
+  onError,
+}: {
+  onError: (error: Error) => void;
+}) => {
   const { login, user } = useAuth();
+  const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
-  const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      await run(login(values));
+    } catch (e: any) {
+      onError(e);
+    }
   };
 
   return (
@@ -29,7 +42,7 @@ export const LoginScreen = () => {
         <Input placeholder={"密码"} type={"password"} id={"password"} />
       </Form.Item>
       <Form.Item>
-        <LoginButton htmlType={"submit"} type={"primary"}>
+        <LoginButton loading={isLoading} htmlType={"submit"} type={"primary"}>
           登录
         </LoginButton>
       </Form.Item>
@@ -38,5 +51,5 @@ export const LoginScreen = () => {
 };
 
 const LoginButton = styled(Button)`
-    width:100%
-`
+  width: 100%;
+`;

@@ -3,6 +3,8 @@ import * as auth from "auth-provider";
 import { User } from "../screens/project-list/search-panel";
 import { http } from "../utils/http";
 import { useMount } from "../utils";
+import { useAsync } from "../utils/use-async";
+import { FullPageErrorFallback, FullPageLoading } from "../components/lib";
 
 interface AuthForm {
   username: string;
@@ -31,8 +33,16 @@ const bootstrapUser = async () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = React.useState<User | null>(null);
-
+  // const [user, setUser] = React.useState<User | null>(null);
+  const {
+    data: user,
+    setData: setUser,
+    error,
+    run,
+    isIdle,
+    isLoading,
+    isError,
+  } = useAsync<User | null>();
   //point free
   const login = (form: AuthForm) => auth.login(form).then(setUser); //等同于.then(user=>setUser(user))函数式编程
   const register = (form: AuthForm) =>
@@ -40,8 +50,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => auth.logout().then(() => setUser(null));
 
   useMount(() => {
-    bootstrapUser().then(setUser);
+    run(bootstrapUser());
   });
+
+  if (isIdle || isLoading) {
+    return <FullPageLoading />;
+  }
+
+  if (isError) {
+    return <FullPageErrorFallback error={error} />;
+  }
 
   return (
     <AuthContext.Provider

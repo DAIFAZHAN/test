@@ -27,7 +27,7 @@ export const ProjectListScreen = () => {
   const { isLoading, error, data: list } = useProject(debouncedParam); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();
 
-  useDocumentTitle("项目列表");
+  useDocumentTitle("项目列表", false);
 
   return (
     <Container>

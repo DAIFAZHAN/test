@@ -12,7 +12,7 @@ export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = React.useState(false);
   const [error, setError] = React.useState<Error | null>(null);
 
-  useDocumentTitle("请登录注册以继续");
+  // useDocumentTitle("请登录注册以继续");
 
   return (
     <Container>

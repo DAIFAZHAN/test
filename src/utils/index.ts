@@ -50,7 +50,9 @@ export const useDocumentTitle = (
 
   useEffect(() => {
     return () => {
-      document.title = oldTitle;
+      if (!keepOnUnmount) {
+        document.title = oldTitle;
+      }
     };
   }, []);
 };

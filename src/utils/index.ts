@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { doc } from "prettier";
 
 // const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 // //可能导致值为false的被删除
@@ -35,4 +36,21 @@ export const useDebounce = <V>(value: V, delay: number) => {
   }, [value, delay]);
 
   return debouncedValue;
+};
+
+export const useDocumentTitle = (
+  title: string,
+  keepOnUnmount: boolean = true
+) => {
+  const oldTitle = document.title;
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    return () => {
+      document.title = oldTitle;
+    };
+  }, []);
 };

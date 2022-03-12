@@ -3,7 +3,12 @@ import { SearchPanel } from "./search-panel";
 import { List, Project } from "./list";
 import { useEffect, useState } from "react";
 import qs from "qs";
-import { cleanObject, useDebounce, useMount } from "../../utils";
+import {
+  cleanObject,
+  useDebounce,
+  useDocumentTitle,
+  useMount,
+} from "../../utils";
 import { useHttp } from "../../utils/http";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
@@ -21,6 +26,8 @@ export const ProjectListScreen = () => {
   const debouncedParam = useDebounce(param, 2000);
   const { isLoading, error, data: list } = useProject(debouncedParam); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();
+
+  useDocumentTitle("项目列表");
 
   return (
     <Container>

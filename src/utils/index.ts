@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { doc } from "prettier";
+import { useEffect, useRef, useState } from "react";
 
 // const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 // //可能导致值为false的被删除
@@ -42,7 +41,7 @@ export const useDocumentTitle = (
   title: string,
   keepOnUnmount: boolean = true
 ) => {
-  const oldTitle = document.title;
+  const oldTitle = useRef(document.title).current;
 
   useEffect(() => {
     document.title = title;
@@ -54,5 +53,5 @@ export const useDocumentTitle = (
         document.title = oldTitle;
       }
     };
-  }, []);
+  }, [keepOnUnmount, oldTitle]);
 };

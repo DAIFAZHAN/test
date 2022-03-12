@@ -11,7 +11,7 @@ export const RegisterScreen = ({
 }: {
   onError: (error: Error) => void;
 }) => {
-  const { register, user } = useAuth();
+  const { register } = useAuth();
   const { run, isLoading } = useAsync(undefined, { throwOnError: true });
 
   const handleSubmit = async ({

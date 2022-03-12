@@ -7,6 +7,10 @@ import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
 import { useDocumentTitle } from "../utils";
+//登录后警告：
+// Warning: Can't perform a React state update on an unmounted component. ' +
+// 'This is a no-op, but it indicates a memory leak in your application. ' +
+// 'To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
 
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = React.useState(false);

@@ -15,14 +15,16 @@ import { Typography } from "antd";
 import { useAsync } from "../../utils/use-async";
 import { useProject } from "../../utils/project";
 import { useUsers } from "../../utils/user";
+import { useUrlQueryParam } from "../../utils/url";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
+  const [, setParam] = useState({
     name: "",
     personId: "",
   });
+  const [param, setSearchParam] = useUrlQueryParam(["name", "personId"]);
   const debouncedParam = useDebounce(param, 2000);
   const { isLoading, error, data: list } = useProject(debouncedParam); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();

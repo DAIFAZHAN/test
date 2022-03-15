@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 
 export interface Project {
   name: string;
-  personId: string;
+  personId: number;
   organization: string;
   pin: boolean;
-  id: string;
+  id: number;
   created: number;
 }
 

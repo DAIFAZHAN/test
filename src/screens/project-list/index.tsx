@@ -16,13 +16,14 @@ import { useAsync } from "../../utils/use-async";
 import { useProject } from "../../utils/project";
 import { useUsers } from "../../utils/user";
 import { useUrlQueryParam } from "../../utils/url";
+import { useProjectsSearchParams } from "./utils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
-  const debouncedParam = useDebounce(param, 2000);
-  const { isLoading, error, data: list } = useProject(debouncedParam); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
+  const [param, setParam] = useProjectsSearchParams();
+
+  const { isLoading, error, data: list } = useProject(useDebounce(param, 2000)); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();
 
   useDocumentTitle("项目列表", false);
@@ -39,7 +40,7 @@ export const ProjectListScreen = () => {
   );
 };
 
-ProjectListScreen.WhyDidYouRender = false;
+ProjectListScreen.whyDidYouRender = false;
 // true时追踪该组件
 
 const Container = styled.div`

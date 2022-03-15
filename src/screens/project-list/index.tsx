@@ -20,11 +20,7 @@ import { useUrlQueryParam } from "../../utils/url";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
-  const [, setParam] = useState({
-    name: "",
-    personId: "",
-  });
-  const [param, setSearchParam] = useUrlQueryParam(["name", "personId"]);
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
   const debouncedParam = useDebounce(param, 2000);
   const { isLoading, error, data: list } = useProject(debouncedParam); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();
@@ -42,6 +38,9 @@ export const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.WhyDidYouRender = false;
+// true时追踪该组件
 
 const Container = styled.div`
   padding: 3.2rem;

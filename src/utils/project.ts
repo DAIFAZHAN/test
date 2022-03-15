@@ -10,7 +10,6 @@ export const useProject = (debouncedParam?: Partial<Project>) => {
   const client = useHttp();
 
   useEffect(() => {
-    console.log("useProject的effect");
     run(client("projects", { data: cleanObject(debouncedParam || {}) }));
   }, [debouncedParam]);
 

@@ -23,7 +23,12 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const ProjectListScreen = () => {
   const [param, setParam] = useProjectsSearchParams();
 
-  const { isLoading, error, data: list } = useProject(useDebounce(param, 2000)); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
+  const {
+    isLoading,
+    error,
+    retry,
+    data: list,
+  } = useProject(useDebounce(param, 2000)); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();
 
   useDocumentTitle("项目列表", false);
@@ -35,7 +40,12 @@ export const ProjectListScreen = () => {
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
-      <List users={users || []} dataSource={list || []} loading={isLoading} />
+      <List
+        refresh={retry}
+        users={users || []}
+        dataSource={list || []}
+        loading={isLoading}
+      />
     </Container>
   );
 };

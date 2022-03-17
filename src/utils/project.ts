@@ -9,8 +9,11 @@ export const useProject = (debouncedParam?: Partial<Project>) => {
 
   const client = useHttp();
 
+  const fetchProjects = () =>
+    client("projects", { data: cleanObject(debouncedParam || {}) });
+
   useEffect(() => {
-    run(client("projects", { data: cleanObject(debouncedParam || {}) }));
+    run(fetchProjects(), { retry: fetchProjects });
   }, [debouncedParam]);
 
   return result;

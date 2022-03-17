@@ -1,6 +1,7 @@
 import { logout } from "../auth-provider";
 import qs from "qs";
 import { useAuth } from "../context/auth-context";
+import { useCallback } from "react";
 
 interface Config extends RequestInit {
   data?: object;
@@ -45,6 +46,9 @@ export const http = (
 
 export const useHttp = () => {
   const { user } = useAuth();
-  return (...[endpoint, config]: Parameters<typeof http>) =>
-    http(endpoint, { ...config, token: user?.token });
+  return useCallback(
+    (...[endpoint, config]: Parameters<typeof http>) =>
+      http(endpoint, { ...config, token: user?.token }),
+    [user?.token]
+  );
 };

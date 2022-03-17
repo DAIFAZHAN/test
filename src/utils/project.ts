@@ -1,7 +1,7 @@
 import { useAsync } from "./use-async";
 import { Project } from "../screens/project-list/list";
 import { useHttp } from "./http";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { cleanObject } from "./index";
 
 export const useProject = (debouncedParam?: Partial<Project>) => {
@@ -9,12 +9,14 @@ export const useProject = (debouncedParam?: Partial<Project>) => {
 
   const client = useHttp();
 
-  const fetchProjects = () =>
-    client("projects", { data: cleanObject(debouncedParam || {}) });
+  const fetchProjects = useCallback(
+    () => client("projects", { data: cleanObject(debouncedParam || {}) }),
+    [client, debouncedParam]
+  );
 
   useEffect(() => {
     run(fetchProjects(), { retry: fetchProjects });
-  }, [debouncedParam]);
+  }, [debouncedParam, fetchProjects, run]);
 
   return result;
 };

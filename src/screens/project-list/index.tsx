@@ -11,16 +11,19 @@ import {
 } from "../../utils";
 import { useHttp } from "../../utils/http";
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { useAsync } from "../../utils/use-async";
 import { useProject } from "../../utils/project";
 import { useUsers } from "../../utils/user";
 import { useUrlQueryParam } from "../../utils/url";
 import { useProjectsSearchParams } from "./utils";
+import { Row } from "components/lib";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-export const ProjectListScreen = () => {
+export const ProjectListScreen = (props: {
+  setProjectModalOpen: (isOpent: boolean) => void;
+}) => {
   const [param, setParam] = useProjectsSearchParams();
 
   const {
@@ -35,12 +38,18 @@ export const ProjectListScreen = () => {
 
   return (
     <Container>
-      <h1>项目列表</h1>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <Button onClick={() => props.setProjectModalOpen(true)}>
+          创建项目
+        </Button>
+      </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
       <List
+        setProjectModalOpen={props.setProjectModalOpen}
         refresh={retry}
         users={users || []}
         dataSource={list || []}

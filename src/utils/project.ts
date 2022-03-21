@@ -3,47 +3,42 @@ import { Project } from "../screens/project-list/list";
 import { useHttp } from "./http";
 import { useCallback, useEffect } from "react";
 import { cleanObject } from "./index";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useProject = (debouncedParam?: Partial<Project>) => {
-  const { run, ...result } = useAsync<Project[]>();
-
   const client = useHttp();
 
-  const fetchProjects = useCallback(
-    () => client("projects", { data: cleanObject(debouncedParam || {}) }),
-    [client, debouncedParam]
+  return useQuery<Project[]>(["projects", debouncedParam], () =>
+    client("projects", { data: cleanObject(debouncedParam || {}) })
   );
-
-  useEffect(() => {
-    run(fetchProjects(), { retry: fetchProjects });
-  }, [debouncedParam, fetchProjects, run]);
-
-  return result;
 };
 
 export const useEditProject = () => {
-  const { run, ...asyncResult } = useAsync();
   const client = useHttp();
-  const mutate = (params: Partial<Project>) => {
-    return run(
-      client(`projects/${params.id}`, { data: params, method: "PATCH" })
-    );
-  };
-  return {
-    mutate,
-    ...asyncResult,
-  };
+  const queryClient = useQueryClient();
+  return useMutation(
+    (params: Partial<Project>) =>
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "PATCH",
+      }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  );
 };
 
 export const useAddProject = () => {
-  const { run, ...asyncResult } = useAsync();
   const client = useHttp();
-  const mutate = (params: Partial<Project>) => {
-    // TODO
-    return run(client("projects", { data: params, method: "POST" }));
-  };
-  return {
-    mutate,
-    ...asyncResult,
-  };
+  const queryClient = useQueryClient();
+  return useMutation(
+    (params: Partial<Project>) =>
+      client(`projects/${params.id}`, {
+        data: params,
+        method: "POST",
+      }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  );
 };

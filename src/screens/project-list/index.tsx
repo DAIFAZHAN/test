@@ -17,19 +17,14 @@ import { useProject } from "../../utils/project";
 import { useUsers } from "../../utils/user";
 import { useUrlQueryParam } from "../../utils/url";
 import { useProjectModal, useProjectsSearchParams } from "./utils";
-import { ButtonNoPadding, Row } from "components/lib";
+import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
   const { open } = useProjectModal();
   const [param, setParam] = useProjectsSearchParams();
-  const {
-    isLoading,
-    error,
-    retry,
-    data: list,
-  } = useProject(useDebounce(param, 2000)); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
+  const { isLoading, error, data: list } = useProject(useDebounce(param, 2000)); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();
 
   useDocumentTitle("项目列表", false);
@@ -43,15 +38,8 @@ export const ProjectListScreen = () => {
         </ButtonNoPadding>{" "}
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
-      {error ? (
-        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
-      ) : null}
-      <List
-        refresh={retry}
-        users={users || []}
-        dataSource={list || []}
-        loading={isLoading}
-      />
+      <ErrorBox error={error} />
+      <List users={users || []} dataSource={list || []} loading={isLoading} />
     </Container>
   );
 };

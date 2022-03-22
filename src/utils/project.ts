@@ -4,6 +4,7 @@ import { useHttp } from "./http";
 import { useCallback, useEffect } from "react";
 import { cleanObject } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useProjectsSearchParams } from "screens/project-list/utils";
 
 export const useProjects = (debouncedParam?: Partial<Project>) => {
   const client = useHttp();
@@ -16,6 +17,8 @@ export const useProjects = (debouncedParam?: Partial<Project>) => {
 export const useEditProject = () => {
   const client = useHttp();
   const queryClient = useQueryClient();
+  const [searchParams] = useProjectsSearchParams();
+  const queryKey = ["projects", searchParams];
   return useMutation(
     (params: Partial<Project>) =>
       client(`projects/${params.id}`, {
@@ -23,7 +26,24 @@ export const useEditProject = () => {
         method: "PATCH",
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries("projects"),
+      onSuccess: () => queryClient.invalidateQueries(queryKey),
+      async onMutate(target) {
+        const previouseItem = queryClient.getQueriesData(queryKey);
+        queryClient.setQueryData(queryKey, (old?: Project[]) => {
+          return (
+            old?.map((project) =>
+              project.id === target.id ? { ...project, ...target } : project
+            ) || []
+          );
+        });
+        return { previouseItem };
+      },
+      onError(error, newItem, context) {
+        queryClient.setQueryData(
+          queryKey,
+          (context as { previouseItem: Project[] }).previouseItem
+        );
+      },
     }
   );
 };

@@ -13,7 +13,7 @@ import { useHttp } from "../../utils/http";
 import styled from "@emotion/styled";
 import { Button, Typography } from "antd";
 import { useAsync } from "../../utils/use-async";
-import { useProject } from "../../utils/project";
+import { useProjects } from "../../utils/project";
 import { useUsers } from "../../utils/user";
 import { useUrlQueryParam } from "../../utils/url";
 import { useProjectModal, useProjectsSearchParams } from "./utils";
@@ -24,7 +24,11 @@ const apiUrl = process.env.REACT_APP_API_URL;
 export const ProjectListScreen = () => {
   const { open } = useProjectModal();
   const [param, setParam] = useProjectsSearchParams();
-  const { isLoading, error, data: list } = useProject(useDebounce(param, 2000)); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
+  const {
+    isLoading,
+    error,
+    data: list,
+  } = useProjects(useDebounce(param, 2000)); //传入cleanObject(debouncedParam)会不停渲染，是否因为新对象？
   const { data: users } = useUsers();
 
   useDocumentTitle("项目列表", false);

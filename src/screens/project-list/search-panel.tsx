@@ -1,19 +1,10 @@
 // /** @jsx jsx */ 与react17冲突
 /** @jsxImportSource @emotion/react */
-import { jsx } from "@emotion/react";
 import React from "react";
-import { Form, Input, Select } from "antd";
-import { Project } from "./list";
+import { Form, Input } from "antd";
 import { UserSelect } from "components/user-selest";
-
-export interface User {
-  token: string;
-  name: string;
-  id: number;
-  email: string;
-  title: string;
-  organization: string;
-}
+import { Project } from "../../types/project";
+import { User } from "../../types/user";
 
 interface SearchPanelProps {
   users: User[];

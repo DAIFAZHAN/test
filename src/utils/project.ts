@@ -1,5 +1,4 @@
 import { useAsync } from "./use-async";
-import { Project } from "../screens/project-list/list";
 import { useHttp } from "./http";
 import { useCallback, useEffect } from "react";
 import { cleanObject } from "./index";
@@ -10,6 +9,7 @@ import {
   useDeleteConfig,
   useEditConfig,
 } from "./use-optimistic-options";
+import { Project } from "../types/project";
 
 export const useProjects = (debouncedParam?: Partial<Project>) => {
   const client = useHttp();

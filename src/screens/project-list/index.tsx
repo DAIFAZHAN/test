@@ -1,6 +1,6 @@
 import React from "react";
 import { SearchPanel } from "./search-panel";
-import { List, Project } from "./list";
+import { List } from "./list";
 import { useEffect, useState } from "react";
 import qs from "qs";
 import {
@@ -18,6 +18,7 @@ import { useUsers } from "../../utils/user";
 import { useUrlQueryParam } from "../../utils/url";
 import { useProjectModal, useProjectsSearchParams } from "./utils";
 import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
+import { Project } from "../../types/project";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 

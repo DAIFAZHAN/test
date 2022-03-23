@@ -3,7 +3,8 @@ import { useMemo, useState } from "react";
 import { cleanObject } from "utils";
 
 export const useUrlQueryParam = <K extends string>(keys: K[]) => {
-  const [searchParams, setSearchParam] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const setSearchParam = useSetUrlSearchParam();
   const [stateKeys] = useState(keys);
   return [
     useMemo(
@@ -15,15 +16,12 @@ export const useUrlQueryParam = <K extends string>(keys: K[]) => {
     ),
     // setSearchParam,
     (params: Partial<{ [key in K]: unknown }>) => {
-      const o = cleanObject({
-        ...Object.fromEntries(searchParams),
-        ...params,
-      }) as URLSearchParamsInit;
-      setSearchParam(o);
+      setSearchParam(params);
     },
   ] as const;
 };
 
+//setSearchParam的通用hook
 export const useSetUrlSearchParam = () => {
   const [searchParams, setSearchParam] = useSearchParams();
   return (params: { [key in string]: unknown }) => {

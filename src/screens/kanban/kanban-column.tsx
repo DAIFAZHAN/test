@@ -21,7 +21,7 @@ const ImgIcon = styled.img`
 `;
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
   //TODO
-  const { data: allTasks } = useTasks();
+  const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 
   return (

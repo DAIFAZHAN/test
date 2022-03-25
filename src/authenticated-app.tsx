@@ -100,4 +100,6 @@ const HeaderRight = styled.div``;
 
 const Main = styled.main`
   //grid-area: main;//加上为何会显示在第三行第二列。
+  display: flex;
+  overflow: hidden;
 `;

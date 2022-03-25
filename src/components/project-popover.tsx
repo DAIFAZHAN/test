@@ -6,6 +6,7 @@ import { ButtonNoPadding } from "./lib";
 
 export const ProjectPopover = () => {
   const { open } = useProjectModal();
+  //TODO  点星后只对某queryKey乐观更新，此处读取的还是整个'projects'的Query，而非[..,..]，此时未及时更新
   const { data: projects } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
   const content = (

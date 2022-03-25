@@ -8,6 +8,7 @@ import taskIcon from "assets/task.jpg";
 import bugIcon from "assets/bug.jpg";
 import styled from "@emotion/styled";
 import { Card } from "antd";
+import { CreateTask } from "./create-task";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -20,7 +21,6 @@ const ImgIcon = styled.img`
   border-radius: 25%;
 `;
 export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
-  //TODO
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 
@@ -34,12 +34,13 @@ export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
             <TaskTypeIcon id={task.typeId} />
           </Card>
         ))}
+        <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   );
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   min-width: 27rem;
   border-radius: 6px;
   background-color: rgb(244, 245, 247);

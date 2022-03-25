@@ -1,8 +1,8 @@
 import { useTaskModal, useTasksQueryKey } from "./utils";
 import { useForm } from "antd/es/form/Form";
-import { useEditTask } from "../../utils/task";
+import { useDeleteTask, useEditTask } from "../../utils/task";
 import { useEffect } from "react";
-import { Form, Input, Modal } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { UserSelect } from "../../components/user-selest";
 import { TaskTypeSelect } from "../../components/task-type-select";
 
@@ -29,6 +29,19 @@ export const TaskModal = () => {
   useEffect(() => {
     form.setFieldsValue(editingTask);
   }, [editingTask, form]);
+
+  const { mutateAsync } = useDeleteTask(useTasksQueryKey());
+  const startDelete = () => {
+    close();
+    Modal.confirm({
+      okText: "确定",
+      cancelText: "取消",
+      title: "确定删除任务吗",
+      onOk() {
+        return mutateAsync({ id: Number(editingTaskId) });
+      },
+    });
+  };
 
   //TODO Form的initialValues似乎对setFieldsValue有一定影响
   return (
@@ -57,6 +70,11 @@ export const TaskModal = () => {
           <TaskTypeSelect defaultOptionName={"类型"} />
         </Form.Item>
       </Form>
+      <div style={{ textAlign: "right" }}>
+        <Button onClick={startDelete} size={"small"}>
+          删除
+        </Button>
+      </div>
     </Modal>
   );
 };

@@ -17,6 +17,8 @@ import { Task } from "../../types/task";
 import { Mark } from "../../components/mark";
 import { useDeleteKanban } from "../../utils/kanban";
 import { Row } from "../../components/lib";
+import React from "react";
+import { Drag, Drop, DropChild } from "../../components/drag-and-drop";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -46,25 +48,44 @@ const TaskCard = ({ task }: { task: Task }) => {
   );
 };
 
-export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+export const KanbanColumn = React.forwardRef<
+  HTMLDivElement,
+  { kanban: Kanban }
+>(({ kanban, ...props }, ref) => {
   const { data: allTasks } = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 
   return (
-    <Container>
+    <Container {...props} ref={ref}>
       <Row between={true}>
         <h3>{kanban.name}</h3>
-        <More kanban={kanban} />
+        <More kanban={kanban} key={kanban.id} />
       </Row>
       <TasksContainer>
-        {tasks?.map((task) => (
-          <TaskCard task={task} />
-        ))}
+        <Drop
+          type={"ROW"}
+          direction={"vertical"}
+          droppableId={String(kanban.id)}
+        >
+          <DropChild>
+            {tasks?.map((task, taskIndex) => (
+              <Drag
+                key={task.id}
+                draggableId={"task" + task.id}
+                index={taskIndex}
+              >
+                <div>
+                  <TaskCard key={task.id} task={task} />
+                </div>
+              </Drag>
+            ))}
+          </DropChild>
+        </Drop>
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   );
-};
+});
 
 const More = ({ kanban }: { kanban: Kanban }) => {
   const { mutateAsync } = useDeleteKanban(useKanbansQueryKey());
@@ -80,8 +101,10 @@ const More = ({ kanban }: { kanban: Kanban }) => {
   };
   const overlay = (
     <Menu>
-      <Menu.Item onClick={startEdit}>
-        <Button type={"link"}>删除</Button>
+      <Menu.Item key={kanban.id + "delete"}>
+        <Button type={"link"} onClick={startEdit}>
+          删除
+        </Button>
       </Menu.Item>
     </Menu>
   );

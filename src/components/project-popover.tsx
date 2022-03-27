@@ -6,8 +6,8 @@ import { ButtonNoPadding } from "./lib";
 
 export const ProjectPopover = () => {
   const { open } = useProjectModal();
-  //TODO  点星后只对某queryKey乐观更新，此处读取的还是整个'projects'的Query，而非[..,..]，此时未及时更新
-  const { data: projects } = useProjects();
+  //用refetch解决：点星后只对["projects",{"name":""}]乐观更新，此处读取的还是["projects",null]，此时未及时更新
+  const { data: projects, refetch } = useProjects();
   const pinnedProjects = projects?.filter((project) => project.pin);
   const content = (
     <ContentContainer>
@@ -27,7 +27,11 @@ export const ProjectPopover = () => {
   );
 
   return (
-    <Popover placement="bottom" content={content}>
+    <Popover
+      onVisibleChange={() => refetch()}
+      placement="bottom"
+      content={content}
+    >
       项目
     </Popover>
   );

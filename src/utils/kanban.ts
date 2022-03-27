@@ -2,7 +2,11 @@ import { useHttp } from "./http";
 import { QueryKey, useMutation, useQuery } from "react-query";
 import { cleanObject } from "./index";
 import { Kanban } from "../types/kanban";
-import { useAddConfig, useDeleteConfig } from "./use-optimistic-options";
+import {
+  useAddConfig,
+  useDeleteConfig,
+  useReorderKanbanConfig,
+} from "./use-optimistic-options";
 
 export const useKanbans = (debouncedParam?: Partial<Kanban>) => {
   const client = useHttp();
@@ -48,12 +52,10 @@ export interface SortProps {
 
 export const useReorderKanban = (queryKey: QueryKey) => {
   const client = useHttp();
-  return useMutation(
-    (params: SortProps) =>
-      client(`kanbans/reorder`, {
-        data: params,
-        method: "POST",
-      })
-    // useRecorderConfig(queryKey)
-  );
+  return useMutation((params: SortProps) => {
+    return client("kanbans/reorder", {
+      data: params,
+      method: "POST",
+    });
+  }, useReorderKanbanConfig(queryKey));
 };

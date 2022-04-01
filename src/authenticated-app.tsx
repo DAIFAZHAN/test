@@ -23,7 +23,7 @@ import { UserPopover } from "./components/user-popover";
  *
  */
 
-export const AuthenticatedApp = () => {
+export default () => {
   return (
     <Container>
       <PageHeader />

@@ -13,7 +13,7 @@ import { ErrorBox } from "components/lib";
 // 'This is a no-op, but it indicates a memory leak in your application. ' +
 // 'To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
 
-export const UnauthenticatedApp = () => {
+export default () => {
   const [isRegister, setIsRegister] = React.useState(false);
   const [error, setError] = React.useState<Error | null>(null);
 

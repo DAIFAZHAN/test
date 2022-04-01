@@ -11,11 +11,11 @@ import {
 } from "./use-optimistic-options";
 import { Project } from "../types/project";
 
-export const useProjects = (debouncedParam?: Partial<Project>) => {
+export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
 
-  return useQuery<Project[]>(["projects", debouncedParam], () =>
-    client("projects", { data: cleanObject(debouncedParam || {}) })
+  return useQuery<Project[]>(["projects", cleanObject(param)], () =>
+    client("projects", { data: param })
   );
 };
 

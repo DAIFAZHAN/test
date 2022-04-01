@@ -5,9 +5,12 @@ import { useEffect, useRef, useState } from "react";
 const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
 
-export const cleanObject = (object: { [key: string]: unknown }) => {
+export const cleanObject = (object?: { [key: string]: unknown }) => {
+  if (!object) {
+    return {};
+  }
+  // Object.assign({},object)
   const result = { ...object };
-
   Object.keys(result).forEach((key) => {
     // @ts-ignore
     if (isVoid(result[key])) {

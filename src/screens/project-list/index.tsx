@@ -19,6 +19,7 @@ import { useUrlQueryParam } from "../../utils/url";
 import { useProjectModal, useProjectsSearchParams } from "./utils";
 import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
 import { Project } from "../../types/project";
+import { Profiler } from "../../components/profiler";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -35,17 +36,19 @@ export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
 
   return (
-    <Container>
-      <Row between={true}>
-        <h1>项目列表</h1>
-        <ButtonNoPadding onClick={open} type="link">
-          创建项目
-        </ButtonNoPadding>{" "}
-      </Row>
-      <SearchPanel users={users || []} param={param} setParam={setParam} />
-      <ErrorBox error={error} />
-      <List users={users || []} dataSource={list || []} loading={isLoading} />
-    </Container>
+    <Profiler id={"项目列表"}>
+      <Container>
+        <Row between={true}>
+          <h1>项目列表</h1>
+          <ButtonNoPadding onClick={open} type="link">
+            创建项目
+          </ButtonNoPadding>{" "}
+        </Row>
+        <SearchPanel users={users || []} param={param} setParam={setParam} />
+        <ErrorBox error={error} />
+        <List users={users || []} dataSource={list || []} loading={isLoading} />
+      </Container>
+    </Profiler>
   );
 };
 

@@ -1,3 +1,6 @@
+/**
+ * @description 错误边界class
+ */
 import React from "react";
 
 type FallbackRender = (props: { error: Error | null }) => React.ReactElement;

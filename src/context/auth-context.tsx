@@ -1,3 +1,8 @@
+/**
+ * @description context的provider。
+ * 全局提供user的信息user，方法login、register、logout。可用useAuth()获取
+ */
+
 import React, { ReactNode } from "react";
 import * as auth from "auth-provider";
 import { http } from "../utils/http";
@@ -23,6 +28,10 @@ const AuthContext = React.createContext<
 >(undefined);
 AuthContext.displayName = "authContext";
 
+/**
+ * 由token异步读取user信息
+ * @returns user信息
+ */
 const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
@@ -56,6 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       queryClient.clear();
     });
 
+  // 加载组件时，读取user信息
   useMount(() => {
     run(bootstrapUser());
   });
@@ -76,6 +86,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+/**
+ * 全局状态，用户授权信息
+ * @returns
+ */
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
   if (!context) {

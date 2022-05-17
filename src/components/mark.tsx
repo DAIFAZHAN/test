@@ -1,3 +1,8 @@
+/**
+ * 搜索高亮功能
+ * @param param0
+ * @returns
+ */
 export const Mark = ({ name, keyword }: { name: string; keyword: string }) => {
   if (!keyword) {
     return <>{name}</>;

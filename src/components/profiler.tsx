@@ -16,6 +16,11 @@ const sendProfileQueue = () => {
 };
 setInterval(sendProfileQueue, 5000);
 
+/**
+ * ReactProfiler追踪组件性能
+ * @param param0
+ * @returns
+ */
 export const Profiler = ({ metadata, phases, ...props }: Props) => {
   const reportProfile: ProfilerOnRenderCallback = (
     id,

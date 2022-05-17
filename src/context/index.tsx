@@ -1,3 +1,6 @@
+/**
+ * @description 全局包裹，QueryClient缓存、Router路由、AuthProvider的Context
+ */
 import { AuthProvider } from "./auth-context";
 import React, { ReactNode } from "react";
 import { QueryClientProvider, QueryClient } from "react-query";

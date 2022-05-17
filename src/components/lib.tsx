@@ -1,3 +1,6 @@
+/**
+ * @description 小工具库
+ */
 import styled from "@emotion/styled";
 import { Button, Spin, Typography } from "antd";
 import { DevTools } from "jira-dev-tool";
@@ -49,7 +52,7 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => {
 };
 
 //类型守卫
-const isError = (value: any): value is Error => value?.message;
+const isError = (value: any): value is Error => value?.message; // 使用 is 来确认value 是一个 Error 类型
 
 export const ErrorBox = ({ error }: { error: unknown }) => {
   if (isError(error)) {

@@ -8,6 +8,11 @@ import {
   useReorderKanbanConfig,
 } from "./use-optimistic-options";
 
+/**
+ * useQuery出对应看板
+ * @param debouncedParam
+ * @returns
+ */
 export const useKanbans = (debouncedParam?: Partial<Kanban>) => {
   const client = useHttp();
 
@@ -50,6 +55,11 @@ export interface SortProps {
   toKanbanId?: number;
 }
 
+/**
+ * 服务端重排看板
+ * @param queryKey
+ * @returns
+ */
 export const useReorderKanban = (queryKey: QueryKey) => {
   const client = useHttp();
   return useMutation((params: SortProps) => {

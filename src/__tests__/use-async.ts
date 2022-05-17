@@ -1,4 +1,4 @@
-// 自动化测试hook
+// 单元测试hook
 
 import { useAsync } from "../utils/use-async";
 import { act, renderHook } from "@testing-library/react-hooks";
@@ -40,11 +40,11 @@ test("useAsync 可以异步处理", async () => {
     reject = rej;
   });
 
-  const { result } = renderHook(() => useAsync());
+  const { result } = renderHook(() => useAsync()); // 运行hook
   expect(result.current).toEqual(defaultState);
 
   let p: Promise<any>;
-  // setState本身异步，想等执行完setState并能够安全获得值的话，用act包裹
+  // setState本身异步，想等执行完异步setState并能够安全获得值的话，用act包裹
   act(() => {
     p = result.current.run(promise);
   });

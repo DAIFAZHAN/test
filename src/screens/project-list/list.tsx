@@ -15,12 +15,12 @@ interface ListProps extends TableProps<Project> {
 }
 
 export const List = ({ users, ...props }: ListProps) => {
-  const { mutate } = useEditProject(useProjectQueryKey());
+  const { mutate } = useEditProject(useProjectQueryKey()); // useMutation返回对象的mutate方法
   const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });
   return (
     <Table
       rowKey={"id"}
-      pagination={false}
+      pagination={false} // 分页
       columns={[
         {
           title: <Pin checked={true} disabled />,

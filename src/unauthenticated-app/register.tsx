@@ -39,7 +39,7 @@ export const RegisterScreen = ({
         name={"username"}
         rules={[{ required: true, message: "请输入用户名" }]}
       >
-        {/*<label htmlFor="username">用户名</label>*/}
+        {/* <label htmlFor="username">用户名</label> */}
         <Input placeholder={"用户名"} type="text" id={"username"} />
       </Form.Item>
       <Form.Item

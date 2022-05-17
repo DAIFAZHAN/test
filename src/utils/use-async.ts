@@ -1,3 +1,7 @@
+/**
+ * @description 处理异步，记录异步时的成功与否状态、返回的数据
+ */
+
 import { useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "utils";
 
@@ -13,10 +17,16 @@ const defaultInitialState: State<null> = {
   stat: "idle",
 };
 
+// 用于设置run错误时返回可被catch到的promise（true时返回promise.reject）
 const defaultConfig = {
   throwOnError: false,
 };
 
+/**
+ * 改进dispatch，防止在组件卸载了进行赋值
+ * @param dispatch 传入dispatch进行改造
+ * @returns 新dispatch
+ */
 const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
   const mountedRef = useMountedRef();
   return useCallback(
@@ -25,11 +35,18 @@ const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
   );
 };
 
+/**
+ * 可记录异步时的状态、成功的数据等
+ * @param initialState
+ * @param initialConfig
+ * @returns
+ */
 export const useAsync = <D>(
   initialState?: State<D>,
   initialConfig?: typeof defaultConfig
 ) => {
   const config = { ...defaultConfig, ...initialConfig };
+  // useReducer代替useState，进行复杂处理
   const [state, dispatch] = useReducer(
     (state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }),
     {
@@ -40,6 +57,7 @@ export const useAsync = <D>(
 
   const safeDispatch = useSafeDispatch(dispatch);
 
+  // useState传入函数时会自动执行，并将返回值作为state
   const [retry, setRetry] = useState(() => () => {});
 
   const setData = useCallback(
@@ -62,6 +80,12 @@ export const useAsync = <D>(
     [safeDispatch]
   );
 
+  /**
+   * 执行promise
+   * @param promise 传入promise
+   * @param runConfig 可选，若有retry属性，则保存该返回promise的函数，并可调用retry执行run
+   * @returns
+   */
   const run = useCallback(
     (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
       if (!promise || !promise.then) {

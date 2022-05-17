@@ -16,7 +16,7 @@ import { useReorderTask, useTasks } from "../../utils/task";
 import { Spin } from "antd";
 import { CreateKanban } from "./create-kanban";
 import { TaskModal } from "./task-modal";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd"; //
 import { Drag, Drop, DropChild } from "../../components/drag-and-drop";
 import { Profiler } from "../../components/profiler";
 
@@ -75,6 +75,7 @@ export const useDragEnd = () => {
 
   return useCallback(
     ({ source, destination, type }: DropResult) => {
+      console.log(source, destination, type);
       if (!destination) {
         return;
       }
@@ -88,7 +89,7 @@ export const useDragEnd = () => {
         reorderKanban({ fromId, referenceId: toId, type });
       }
       if (type === "ROW") {
-        const fromKanbanId = +source.droppableId;
+        const fromKanbanId = +source.droppableId; // +string转为number
         const toKanbanId = +destination.droppableId;
         const fromTask = allTasks.filter(
           (task) => task.kanbanId === fromKanbanId

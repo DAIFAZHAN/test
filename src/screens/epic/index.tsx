@@ -65,7 +65,7 @@ export const EpicScreen = () => {
                     to={`/projects/${currentProject?.id}/kanban?editingTaskId=${task.id}`}
                     key={task.id}
                   >
-                    {task.name}
+                    {task.name + " "}
                   </Link>
                 ))}
             </div>

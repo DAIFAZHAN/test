@@ -10,6 +10,11 @@ import {
 } from "./use-optimistic-options";
 import { SortProps } from "./kanban";
 
+/**
+ * useQuery出对应任务
+ * @param debouncedParam
+ * @returns
+ */
 export const useTasks = (debouncedParam?: Partial<Task>) => {
   const client = useHttp();
 
@@ -60,6 +65,11 @@ export const useDeleteTask = (queryKey: QueryKey) => {
   );
 };
 
+/**
+ * 服务端重排任务
+ * @param queryKey
+ * @returns
+ */
 export const useReorderTask = (queryKey: QueryKey) => {
   const client = useHttp();
   return useMutation((params: SortProps) => {
